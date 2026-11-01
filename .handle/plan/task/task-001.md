@@ -11,6 +11,7 @@ Specify the project manifest used to register services, their repository paths, 
 - Enumerate validation rules: unique ids, no self-dependency, no cycles, resolvable paths
 - Define the `## Dependencies` convention for feature and task files (local ids, `svc/kind-N` for cross-service refs, `- None` when empty)
 - Define the required sections for feature, task, and bug files, including `## Tasks`, `## Steps to Reproduce`, `## Expected/Actual`, `## Potentially Introduced`, `## Implementation`, and `## Summary`
+- Define the `## Tasks` entry format as `- [ ] [T001](../task/task-001.md) Title`, with the checkbox mirroring the task's completion
 - Define `path` semantics: service paths are relative to the project root (the parent of `.project/`), not to the manifest file
 - Create the live manifest at `.project/services.yaml`, registering `handle` as the first service
 - Add a validated example manifest to the docs

@@ -10,9 +10,9 @@ Expose the aggregated project over HTTP and give the browser a usable overview p
 - Breadcrumb navigation and deep links
 
 ## Tasks
-- [T006](../task/task-006.md) Add GET /api/project endpoint
-- [T007](../task/task-007.md) Build project overview UI
-- [T008](../task/task-008.md) Build service drill-down UI
+- [ ] [T006](../task/task-006.md) Add GET /api/project endpoint
+- [ ] [T007](../task/task-007.md) Build project overview UI
+- [ ] [T008](../task/task-008.md) Build service drill-down UI
 
 ## Dependencies
 - F002

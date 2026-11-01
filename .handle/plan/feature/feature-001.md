@@ -10,9 +10,9 @@ Specify how a project registers its services and their dependencies, and make wo
 - Add Go types for `Project`, `Service`, and `ServiceDependency`
 
 ## Tasks
-- [T001](../task/task-001.md) Define and document services.yaml schema
-- [T002](../task/task-002.md) Implement manifest loader and validation
-- [T003](../task/task-003.md) Introduce namespaced work-item IDs
+- [ ] [T001](../task/task-001.md) Define and document services.yaml schema
+- [ ] [T002](../task/task-002.md) Implement manifest loader and validation
+- [ ] [T003](../task/task-003.md) Introduce namespaced work-item IDs
 
 ## Dependencies
 - None

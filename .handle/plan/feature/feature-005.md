@@ -9,8 +9,8 @@ Keep the viewer in sync with files on disk and document how the multi-service mo
 - Update the README with setup, manifest schema, and endpoints
 
 ## Tasks
-- [T011](../task/task-011.md) Add live reload on file change
-- [T012](../task/task-012.md) Update README and architecture notes
+- [ ] [T011](../task/task-011.md) Add live reload on file change
+- [ ] [T012](../task/task-012.md) Update README and architecture notes
 
 ## Dependencies
 - F003
