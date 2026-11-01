@@ -1,4 +1,4 @@
-module github.com/griffinmorgan/handle
+module github.com/gmmorgan96/handle
 
 go 1.24.11
 
