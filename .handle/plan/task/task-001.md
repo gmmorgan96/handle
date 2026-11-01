@@ -20,15 +20,21 @@ Specify the project manifest used to register services, their repository paths, 
 - None
 
 ## Acceptance Criteria
-- [ ] Schema is documented
-- [ ] Example manifest validates
-- [ ] `.project/services.yaml` exists and validates against the documented schema
-- [ ] A loader can find every service root from the manifest alone
-- [ ] Validation rules are enumerated
+- [x] Schema is documented
+- [x] Example manifest validates
+- [x] `.project/services.yaml` exists and validates against the documented schema
+- [x] A loader can find every service root from the manifest alone
+- [x] Validation rules are enumerated
 
 ## Implementation
-- Commit: (pending)
-- Message: (pending)
+- Commit: 22209363fcad2b8833ec0c207ee82fd4468142e9
+- Message: "T001: Define and document services.yaml schema"
 
 ## Summary
-(pending)
+- Added `.project/schema.md` documenting the on-disk contract: project layout, `services.yaml` fields, project-root-relative path semantics, two-tier validation, work-item namespacing, and required sections for feature/task/bug files.
+- Defined the `## Dependencies`, `## Tasks`, `## Implementation`, and `## Summary` conventions, including the `(pending)` placeholder.
+- Documented progress as checkbox-derived and deferred the exact rollup to T005.
+- Verified the live `.project/services.yaml` and the doc's example against schema validation; the live manifest also passes resolution validation (`./handle` exists and contains `.handle/plan/`).
+- Verified a loader resolves every service root from the manifest alone, with no hardcoded paths.
+- Linked the schema from `.project/project.md`.
+- The implementation commit lives in the project repo (`ghost-ideas`), because the schema is project-level, not service-level.
