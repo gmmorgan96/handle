@@ -20,9 +20,9 @@ Specify how a project registers its services and their dependencies, and make wo
 ## Acceptance Criteria
 - [x] Schema documented with a validated example manifest
 - [x] `.project/services.yaml` exists and validates
-- [ ] Loader parses valid manifests and rejects invalid ones with actionable errors
+- [x] Loader parses valid manifests and rejects invalid ones with actionable errors
 - [ ] Two services can both contain `feature-001` without collision
-- [ ] `go build ./...` and `go test ./...` pass
+- [x] `go build ./...` and `go test ./...` pass
 
 ## Implementation
 - Commit: (pending)
