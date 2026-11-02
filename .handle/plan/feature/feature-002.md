@@ -10,6 +10,7 @@ Load every registered service's `.handle` directory into a single project model 
 - Roll progress up task → feature → service → project from checkbox counts
 
 ## Tasks
+- [ ] [T013](../task/task-013.md) Port .handle plan parser
 - [ ] [T004](../task/task-004.md) Multi-repo parse orchestration
 - [ ] [T005](../task/task-005.md) Progress rollup
 

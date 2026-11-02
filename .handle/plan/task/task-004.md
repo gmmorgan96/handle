@@ -14,6 +14,7 @@ For each service in the manifest, run the existing parser against `<path>/.handl
 ## Dependencies
 - T002
 - T003
+- T013
 
 ## Acceptance Criteria
 - [ ] Two or more services parse into one project
