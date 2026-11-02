@@ -11,7 +11,7 @@ Load every registered service's `.handle` directory into a single project model 
 
 ## Tasks
 - [x] [T013](../task/task-013.md) Port .handle plan parser
-- [ ] [T004](../task/task-004.md) Multi-repo parse orchestration
+- [x] [T004](../task/task-004.md) Multi-repo parse orchestration
 - [ ] [T005](../task/task-005.md) Progress rollup
 
 ## Dependencies
