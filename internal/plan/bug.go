@@ -128,26 +128,36 @@ func parseExpectedActual(lines []string) (expected, actual string, err error) {
 	return expected, actual, nil
 }
 
-// parsePhase reads a phase reference. Bug files may refer to a phase either
-// with a markdown link ("- [P001](../plan.md)") or as a plain bullet ("- P001").
+// parsePhase reads a bug's optional, singular phase reference. Bug files may
+// refer to a phase either with a markdown link ("- [P001](../plan.md)") or as a
+// plain bullet ("- P001"). Because BugDoc.Phase holds one id, more than one
+// entry is an error rather than a value to silently ignore.
 func parsePhase(lines []string) (workitem.WorkItemID, error) {
-	for _, line := range lines {
-		if match := docLinkRE.FindStringSubmatch(line); match != nil {
-			id, err := workitem.Parse(strings.TrimSpace(match[1]))
-			if err != nil {
-				return "", fmt.Errorf("malformed phase entry %q: %w", line, err)
-			}
-			return id, nil
-		}
+	switch len(lines) {
+	case 0:
+		return "", nil
+	case 1:
+		return parsePhaseEntry(lines[0])
+	default:
+		return "", fmt.Errorf("multiple phase entries: %q", strings.Join(lines, ", "))
+	}
+}
+
+func parsePhaseEntry(line string) (workitem.WorkItemID, error) {
+	var raw string
+	if match := docLinkRE.FindStringSubmatch(line); match != nil {
+		raw = strings.TrimSpace(match[1])
+	} else {
 		match := bulletRE.FindStringSubmatch(line)
 		if match == nil {
 			return "", fmt.Errorf("malformed phase entry %q", line)
 		}
-		id, err := workitem.Parse(match[1])
-		if err != nil {
-			return "", fmt.Errorf("malformed phase entry %q: %w", line, err)
-		}
-		return id, nil
+		raw = match[1]
 	}
-	return "", nil
+
+	id, err := workitem.Parse(raw)
+	if err != nil {
+		return "", fmt.Errorf("malformed phase entry %q: %w", line, err)
+	}
+	return id, nil
 }

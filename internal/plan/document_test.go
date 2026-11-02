@@ -313,6 +313,17 @@ func TestParseBugPlainPhase(t *testing.T) {
 	}
 }
 
+func TestParseBugRejectsMultiplePhases(t *testing.T) {
+	input := "# B004 - Two phases\n\n## Phase\n- P001\n- P002\n"
+	_, err := ParseBug(strings.NewReader(input))
+	if err == nil {
+		t.Fatal("ParseBug returned nil error")
+	}
+	if !strings.Contains(err.Error(), "multiple phase") {
+		t.Errorf("error = %q, want substring %q", err, "multiple phase")
+	}
+}
+
 func TestParseBugUnknownIntroduced(t *testing.T) {
 	input := `# B003 - Unknown origin
 
