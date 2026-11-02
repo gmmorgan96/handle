@@ -38,5 +38,6 @@ Bring the existing single-repo `.handle` parser into this module so the multi-se
 - Added `plan.Load(serviceID, root)` returning a per-service `Result`. An empty `.handle/plan` directory yields an empty result, while missing or malformed files return path-qualified errors.
 - Treats `(pending)` implementation fields as "not yet committed" and accepts `(unknown)` in a bug's potentially-introduced section.
 - Added tests covering plan/feature/task/bug documents, dependency and namespacing behavior, empty plans and directories, malformed files, and this repository's real `.handle` tree.
+- Follow-up commit `355486535e64430d5c3e9eb548e5c1fd40db7bc6` made the optional bug `## Phase` section explicitly singular and added a regression test that rejects multiple entries.
 - Verified with `go build ./...`, `go vet ./...`, and `go test ./...`; all pass.
 - No feature acceptance criterion was marked complete because F002 still needs T004 aggregation and T005 rollup.
