@@ -21,15 +21,22 @@ Bring the existing single-repo `.handle` parser into this module so the multi-se
 - T003
 
 ## Acceptance Criteria
-- [ ] A valid `.handle/plan/` tree parses into phases, features, tasks, and bugs
-- [ ] Item ids are namespaced with the service id and do not collide across services
-- [ ] Missing and malformed plan files return errors without panicking
-- [ ] An empty `.handle/plan/` parses to an empty result without error
-- [ ] `go build ./...` and `go test ./...` pass
+- [x] A valid `.handle/plan/` tree parses into phases, features, tasks, and bugs
+- [x] Item ids are namespaced with the service id and do not collide across services
+- [x] Missing and malformed plan files return errors without panicking
+- [x] An empty `.handle/plan/` parses to an empty result without error
+- [x] `go build ./...` and `go test ./...` pass
 
 ## Implementation
-- Commit: (pending)
-- Message: (pending)
+- Commit: 5b4dda4b4005243c37da4248bce91372e8d429c2
+- Message: "T013: Port .handle plan parser"
 
 ## Summary
-(pending)
+- Added `internal/plan`, a self-contained parser for one service's `.handle/plan` tree, so T004 can import it without a local `replace` directive.
+- Ported plan, feature, task, and bug parsing, including descriptions, requirements, `## Tasks`, `## Dependencies`, acceptance checkboxes, `## Implementation`, `## Summary`, and the bug-specific reproduction, expected/actual, and potentially-introduced sections.
+- Stored all item identifiers as `workitem.WorkItemID` and namespaced them with the service id in `Load`; cross-service references are left unchanged.
+- Added `plan.Load(serviceID, root)` returning a per-service `Result`. An empty `.handle/plan` directory yields an empty result, while missing or malformed files return path-qualified errors.
+- Treats `(pending)` implementation fields as "not yet committed" and accepts `(unknown)` in a bug's potentially-introduced section.
+- Added tests covering plan/feature/task/bug documents, dependency and namespacing behavior, empty plans and directories, malformed files, and this repository's real `.handle` tree.
+- Verified with `go build ./...`, `go vet ./...`, and `go test ./...`; all pass.
+- No feature acceptance criterion was marked complete because F002 still needs T004 aggregation and T005 rollup.
