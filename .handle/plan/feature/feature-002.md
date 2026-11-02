@@ -18,8 +18,8 @@ Load every registered service's `.handle` directory into a single project model 
 - F001
 
 ## Acceptance Criteria
-- [ ] A project with two or more services parses into one model
-- [ ] A broken service appears with an error while the others still load
+- [x] A project with two or more services parses into one model
+- [x] A broken service appears with an error while the others still load
 - [ ] Rollup math is covered by unit tests
 - [ ] An empty service and an empty project are handled without panic
 
