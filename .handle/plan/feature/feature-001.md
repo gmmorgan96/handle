@@ -12,7 +12,7 @@ Specify how a project registers its services and their dependencies, and make wo
 ## Tasks
 - [x] [T001](../task/task-001.md) Define and document services.yaml schema
 - [x] [T002](../task/task-002.md) Implement manifest loader and validation
-- [ ] [T003](../task/task-003.md) Introduce namespaced work-item IDs
+- [x] [T003](../task/task-003.md) Introduce namespaced work-item IDs
 
 ## Dependencies
 - None
@@ -21,7 +21,7 @@ Specify how a project registers its services and their dependencies, and make wo
 - [x] Schema documented with a validated example manifest
 - [x] `.project/services.yaml` exists and validates
 - [x] Loader parses valid manifests and rejects invalid ones with actionable errors
-- [ ] Two services can both contain `feature-001` without collision
+- [x] Two services can both contain `feature-001` without collision
 - [x] `go build ./...` and `go test ./...` pass
 
 ## Implementation

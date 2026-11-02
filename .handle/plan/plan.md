@@ -9,7 +9,7 @@ registers the services and the dependencies between them.
 **Purpose**: Aggregate multiple service repos behind a project manifest, namespace work items, and present progress and cross-service blockers in list form.
 
 **Features**
-- [ ] ([F001](feature/feature-001.md)) Define project manifest and multi-service data model
+- [x] ([F001](feature/feature-001.md)) Define project manifest and multi-service data model
 - [ ] ([F002](feature/feature-002.md)) Aggregate repos and roll up progress
 - [ ] ([F003](feature/feature-003.md)) Build project overview and drill-down UI
 - [ ] ([F004](feature/feature-004.md)) Surface cross-service blockers
