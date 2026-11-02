@@ -12,7 +12,7 @@ Load every registered service's `.handle` directory into a single project model 
 ## Tasks
 - [x] [T013](../task/task-013.md) Port .handle plan parser
 - [x] [T004](../task/task-004.md) Multi-repo parse orchestration
-- [ ] [T005](../task/task-005.md) Progress rollup
+- [x] [T005](../task/task-005.md) Progress rollup
 
 ## Dependencies
 - F001
@@ -20,8 +20,8 @@ Load every registered service's `.handle` directory into a single project model 
 ## Acceptance Criteria
 - [x] A project with two or more services parses into one model
 - [x] A broken service appears with an error while the others still load
-- [ ] Rollup math is covered by unit tests
-- [ ] An empty service and an empty project are handled without panic
+- [x] Rollup math is covered by unit tests
+- [x] An empty service and an empty project are handled without panic
 
 ## Implementation
 - Commit: (pending)
