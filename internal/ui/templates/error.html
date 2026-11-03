@@ -1,0 +1,7 @@
+{{define "content"}}
+<section class="empty-state error-state" role="alert">
+  <h1>Could not load project</h1>
+  <p>{{.Error}}</p>
+  <p>Check <code>.project/services.yaml</code> and the service paths, then reload.</p>
+</section>
+{{end}}

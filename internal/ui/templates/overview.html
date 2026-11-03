@@ -1,0 +1,85 @@
+{{define "content"}}
+<section class="overview-header">
+  <div>
+    <h1>{{if .ProjectName}}{{.ProjectName}}{{else}}Project overview{{end}}</h1>
+    <p class="muted">Progress from .handle planning files across every registered service.</p>
+  </div>
+  <div class="overall-progress">
+    <span class="metric-label">Overall progress</span>
+    <div class="progress" role="progressbar" aria-valuenow="{{printf "%.0f" .Progress.Percent}}" aria-valuemin="0" aria-valuemax="100">
+      <span class="progress-fill" style="width: {{printf "%.0f" .Progress.Percent}}%"></span>
+    </div>
+    <span class="progress-text">{{printf "%.0f" .Progress.Percent}}% · {{.Progress.Done}}/{{.Progress.Total}} tasks complete</span>
+  </div>
+</section>
+
+<form class="filters" method="get" action="/">
+  <label class="field">
+    <span>Name</span>
+    <input type="search" name="q" value="{{.Query}}" placeholder="Filter by name">
+  </label>
+  <label class="field">
+    <span>Status</span>
+    <select name="status">
+      {{range .StatusOptions}}<option value="{{.Value}}"{{if .Selected}} selected{{end}}>{{.Label}}</option>{{end}}
+    </select>
+  </label>
+  <label class="field">
+    <span>Sort by</span>
+    <select name="sort">
+      {{range .SortOptions}}<option value="{{.Value}}"{{if .Selected}} selected{{end}}>{{.Label}}</option>{{end}}
+    </select>
+  </label>
+  <button type="submit">Apply</button>
+  {{if .Filtered}}<a class="clear" href="/">Clear</a>{{end}}
+</form>
+
+{{if eq .TotalServices 0}}
+<section class="empty-state" role="status">
+  <h2>No services yet</h2>
+  <p>Register service repositories in <code>.project/services.yaml</code> to see them here.</p>
+</section>
+{{else if eq .VisibleServices 0}}
+<section class="empty-state" role="status">
+  <h2>No matching services</h2>
+  <p>No services match the current name or status filter.</p>
+  <a class="clear" href="/">Clear filters</a>
+</section>
+{{else}}
+<p class="result-count">Showing {{.VisibleServices}} of {{.TotalServices}} services</p>
+<section class="service-grid" aria-label="Services">
+  {{range .Services}}
+  <article class="service-card service-card-{{.Status}}" data-service-id="{{.ID}}" data-status="{{.Status}}" data-progress-done="{{.Progress.Done}}" data-progress-total="{{.Progress.Total}}" data-progress-percent="{{printf "%.0f" .Progress.Percent}}" data-bug-count="{{.Bugs}}">
+    <header class="service-card-header">
+      <div>
+        <h2>{{.Name}}</h2>
+        <p class="service-id"><code>{{.ID}}</code></p>
+      </div>
+      <span class="badge badge-{{.Status}}">{{.StatusLabel}}</span>
+    </header>
+
+    {{if .Description}}<p class="service-description">{{.Description}}</p>{{end}}
+
+    {{if .Error}}
+    <p class="service-error" role="alert"><strong>Failed to load:</strong> {{.Error}}</p>
+    {{else}}
+    <div class="service-metrics">
+      <span><strong>{{.Progress.Done}}</strong>/{{.Progress.Total}} tasks complete</span>
+      <span class="bug-count"><strong>{{.Bugs}}</strong> open {{if eq .Bugs 1}}bug{{else}}bugs{{end}}</span>
+    </div>
+    <div class="progress" role="progressbar" aria-label="{{.Name}} progress" aria-valuenow="{{printf "%.0f" .Progress.Percent}}" aria-valuemin="0" aria-valuemax="100">
+      <span class="progress-fill" style="width: {{printf "%.0f" .Progress.Percent}}%"></span>
+    </div>
+    <p class="progress-text">{{printf "%.0f" .Progress.Percent}}% complete · {{.Features}} features · {{.Tasks}} tasks</p>
+    {{end}}
+
+    {{if .DependsOn}}
+    <p class="dependencies">Depends on:
+      {{range $index, $dependency := .DependsOn}}{{if $index}}, {{end}}<code>{{$dependency}}</code>{{end}}
+    </p>
+    {{end}}
+  </article>
+  {{end}}
+</section>
+{{end}}
+{{end}}
