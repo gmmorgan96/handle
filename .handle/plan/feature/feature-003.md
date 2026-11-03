@@ -10,7 +10,7 @@ Expose the aggregated project over HTTP and give the browser a usable overview p
 - Breadcrumb navigation and deep links
 
 ## Tasks
-- [ ] [T006](../task/task-006.md) Add GET /api/project endpoint
+- [x] [T006](../task/task-006.md) Add GET /api/project endpoint
 - [ ] [T007](../task/task-007.md) Build project overview UI
 - [ ] [T008](../task/task-008.md) Build service drill-down UI
 
@@ -18,7 +18,7 @@ Expose the aggregated project over HTTP and give the browser a usable overview p
 - F002
 
 ## Acceptance Criteria
-- [ ] `/api/project` returns the documented shape
+- [x] `/api/project` returns the documented shape
 - [ ] Overview shows every service with progress and error badges
 - [ ] Can navigate three levels deep and back
 - [ ] Empty and broken states render sensibly
