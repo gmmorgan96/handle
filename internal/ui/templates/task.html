@@ -1,0 +1,50 @@
+{{define "content"}}
+{{template "breadcrumbs" .Crumbs}}
+
+<section class="page-header">
+  <div>
+    <h1>{{.Task.Title}}</h1>
+    <p class="service-id"><code>{{.Task.LocalID}}</code> in {{.ServiceName}}</p>
+    {{if .Task.Description}}<p>{{.Task.Description}}</p>{{end}}
+    {{if .Task.Feature}}<p class="muted">Feature: <a href="{{.Task.Feature.URL}}"><code>{{.Task.Feature.LocalID}}</code> {{.Task.Feature.Title}}</a></p>{{end}}
+  </div>
+  <div class="overall-progress">
+    <span class="badge badge-{{.Task.Status.Key}}">{{.Task.Status.Label}}</span>
+    {{if .Task.Status.Total}}
+    <div class="progress" role="progressbar" aria-label="Acceptance criteria" aria-valuenow="{{printf "%.0f" .Task.Status.Percent}}" aria-valuemin="0" aria-valuemax="100">
+      <span class="progress-fill" style="width: {{printf "%.0f" .Task.Status.Percent}}%"></span>
+    </div>
+    <span class="progress-text">{{.Task.Status.Done}}/{{.Task.Status.Total}} acceptance criteria</span>
+    {{end}}
+  </div>
+</section>
+
+<section class="detail-section">
+  <h2>Requirements</h2>
+  {{template "bullets" .Task.Requirements}}
+</section>
+
+{{if .Task.Dependencies}}
+<section class="detail-section">
+  <h2>Dependencies</h2>
+  {{template "bullets" .Task.Dependencies}}
+</section>
+{{end}}
+
+<section class="detail-section">
+  <h2>Acceptance Criteria</h2>
+  {{template "checks" .Task.Acceptance}}
+</section>
+
+<section class="detail-section">
+  <h2>Implementation</h2>
+  {{template "commit" .Task.Commit}}
+</section>
+
+{{if .Task.Summary}}
+<section class="detail-section">
+  <h2>Summary</h2>
+  <p>{{.Task.Summary}}</p>
+</section>
+{{end}}
+{{end}}

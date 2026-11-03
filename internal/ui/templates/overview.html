@@ -52,7 +52,7 @@
   <article class="service-card service-card-{{.Status}}" data-service-id="{{.ID}}" data-status="{{.Status}}" data-progress-done="{{.Progress.Done}}" data-progress-total="{{.Progress.Total}}" data-progress-percent="{{printf "%.0f" .Progress.Percent}}" data-bug-count="{{.Bugs}}">
     <header class="service-card-header">
       <div>
-        <h2>{{.Name}}</h2>
+        <h2><a href="{{.URL}}">{{.Name}}</a></h2>
         <p class="service-id"><code>{{.ID}}</code></p>
       </div>
       <span class="badge badge-{{.Status}}">{{.StatusLabel}}</span>

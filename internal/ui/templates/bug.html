@@ -1,0 +1,74 @@
+{{define "content"}}
+{{template "breadcrumbs" .Crumbs}}
+
+<section class="page-header">
+  <div>
+    <h1>{{.Bug.Title}}</h1>
+    <p class="service-id"><code>{{.Bug.LocalID}}</code> in {{.ServiceName}}</p>
+    {{if .Bug.Description}}<p>{{.Bug.Description}}</p>{{end}}
+    {{if .Bug.Feature}}<p class="muted">Feature: <a href="{{.Bug.Feature.URL}}"><code>{{.Bug.Feature.LocalID}}</code> {{.Bug.Feature.Title}}</a></p>{{end}}
+  </div>
+  <div class="overall-progress">
+    <span class="badge badge-{{.Bug.Status.Key}}">{{.Bug.Status.Label}}</span>
+    {{if .Bug.Status.Total}}
+    <div class="progress" role="progressbar" aria-label="Acceptance criteria" aria-valuenow="{{printf "%.0f" .Bug.Status.Percent}}" aria-valuemin="0" aria-valuemax="100">
+      <span class="progress-fill" style="width: {{printf "%.0f" .Bug.Status.Percent}}%"></span>
+    </div>
+    <span class="progress-text">{{.Bug.Status.Done}}/{{.Bug.Status.Total}} acceptance criteria</span>
+    {{end}}
+  </div>
+</section>
+
+<section class="detail-section">
+  <h2>Requirements</h2>
+  {{template "bullets" .Bug.Requirements}}
+</section>
+
+<section class="detail-section" data-section="steps-to-reproduce">
+  <h2>Steps to Reproduce</h2>
+  {{if .Bug.Steps}}
+  <ol class="steps">
+    {{range .Bug.Steps}}<li>{{.}}</li>{{end}}
+  </ol>
+  {{else}}<p class="muted">No reproduction steps recorded.</p>{{end}}
+</section>
+
+<section class="detail-section" data-section="expected-actual">
+  <h2>Expected/Actual</h2>
+  <dl class="expected-actual">
+    <dt>Expected</dt>
+    <dd>{{if .Bug.Expected}}{{.Bug.Expected}}{{else}}<span class="muted">Not recorded.</span>{{end}}</dd>
+    <dt>Actual</dt>
+    <dd>{{if .Bug.Actual}}{{.Bug.Actual}}{{else}}<span class="muted">Not recorded.</span>{{end}}</dd>
+  </dl>
+</section>
+
+<section class="detail-section" data-section="potentially-introduced">
+  <h2>Potentially Introduced</h2>
+  {{template "commit" .Bug.Introduced}}
+</section>
+
+{{if .Bug.Dependencies}}
+<section class="detail-section">
+  <h2>Dependencies</h2>
+  {{template "bullets" .Bug.Dependencies}}
+</section>
+{{end}}
+
+<section class="detail-section">
+  <h2>Acceptance Criteria</h2>
+  {{template "checks" .Bug.Acceptance}}
+</section>
+
+<section class="detail-section">
+  <h2>Fix Commit</h2>
+  {{template "commit" .Bug.Commit}}
+</section>
+
+{{if .Bug.Summary}}
+<section class="detail-section">
+  <h2>Summary</h2>
+  <p>{{.Bug.Summary}}</p>
+</section>
+{{end}}
+{{end}}

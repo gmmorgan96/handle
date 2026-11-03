@@ -1,0 +1,46 @@
+{{define "breadcrumbs"}}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    {{range .}}<li>{{if .URL}}<a href="{{.URL}}">{{.Label}}</a>{{else}}<span aria-current="page">{{.Label}}</span>{{end}}</li>{{end}}
+  </ol>
+</nav>
+{{end}}
+
+{{define "checks"}}
+{{if .}}
+<ul class="checks">
+  {{range .}}<li class="{{if .Done}}check-done{{else}}check-pending{{end}}"><span class="check-mark" aria-hidden="true">{{if .Done}}✓{{else}}○{{end}}</span> {{.Text}}</li>{{end}}
+</ul>
+{{else}}<p class="muted">No acceptance criteria recorded.</p>{{end}}
+{{end}}
+
+{{define "bullets"}}
+{{if .}}
+<ul class="bullets">
+  {{range .}}<li>{{.}}</li>{{end}}
+</ul>
+{{else}}<p class="muted">None recorded.</p>{{end}}
+{{end}}
+
+{{define "commit"}}
+{{if .}}
+<dl class="commit">
+  <dt>Commit</dt>
+  <dd><code>{{.ID}}</code></dd>
+  <dt>Message</dt>
+  <dd>{{.Message}}</dd>
+</dl>
+{{else}}<p class="muted">No commit recorded.</p>{{end}}
+{{end}}
+
+{{define "item-links"}}
+{{if .}}
+<ul class="item-list">
+  {{range .}}<li class="item item-{{.Status.Key}}" data-item-id="{{.LocalID}}" data-status="{{.Status.Key}}">
+    <a href="{{.URL}}"><code>{{.LocalID}}</code> {{.Title}}</a>
+    <span class="badge badge-{{.Status.Key}}">{{.Status.Label}}</span>
+    {{if .Status.Total}}<span class="item-checks">{{.Status.Done}}/{{.Status.Total}} checks</span>{{end}}
+  </li>{{end}}
+</ul>
+{{else}}<p class="muted">None.</p>{{end}}
+{{end}}

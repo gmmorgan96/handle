@@ -1,0 +1,65 @@
+{{define "content"}}
+{{template "breadcrumbs" .Crumbs}}
+
+<section class="page-header">
+  <div>
+    <h1>{{.Service.Name}}</h1>
+    <p class="service-id"><code>{{.Service.ID}}</code></p>
+    {{if .Service.Description}}<p class="service-description">{{.Service.Description}}</p>{{end}}
+  </div>
+  <div class="overall-progress">
+    <span class="badge badge-{{.Service.Status}}">{{.Service.StatusLabel}}</span>
+    <div class="progress" role="progressbar" aria-label="{{.Service.Name}} progress" aria-valuenow="{{printf "%.0f" .Service.Progress.Percent}}" aria-valuemin="0" aria-valuemax="100">
+      <span class="progress-fill" style="width: {{printf "%.0f" .Service.Progress.Percent}}%"></span>
+    </div>
+    <span class="progress-text">{{printf "%.0f" .Service.Progress.Percent}}% · {{.Service.Progress.Done}}/{{.Service.Progress.Total}} tasks complete</span>
+  </div>
+</section>
+
+{{if .Service.Error}}
+<p class="service-error" role="alert"><strong>Failed to load:</strong> {{.Service.Error}}</p>
+{{else if not .HasItems}}
+<section class="empty-state" role="status">
+  <h2>No features, tasks, or bugs yet</h2>
+  <p>This service loaded but has no work items recorded in <code>.handle/plan</code>.</p>
+</section>
+{{else}}
+{{if .Features}}
+<section class="feature-list" aria-label="Features">
+  <h2>Features</h2>
+  {{range .Features}}
+  <article class="feature-card" data-feature-id="{{.LocalID}}" data-status="{{.Status.Key}}">
+    <header class="feature-card-header">
+      <h3><a href="{{.URL}}"><code>{{.LocalID}}</code> {{.Title}}</a></h3>
+      <span class="badge badge-{{.Status.Key}}">{{.Status.Label}}</span>
+    </header>
+    {{if .Description}}<p class="feature-description">{{.Description}}</p>{{end}}
+    <p class="item-checks">{{.Status.Done}}/{{.Status.Total}} acceptance criteria</p>
+    <div class="nested-group">
+      <h4>Tasks</h4>
+      {{template "item-links" .Tasks}}
+    </div>
+    <div class="nested-group">
+      <h4>Bugs</h4>
+      {{template "item-links" .Bugs}}
+    </div>
+  </article>
+  {{end}}
+</section>
+{{end}}
+
+{{if .UnassignedTasks}}
+<section class="unassigned-group" aria-label="Unassigned tasks">
+  <h2>Unassigned tasks</h2>
+  {{template "item-links" .UnassignedTasks}}
+</section>
+{{end}}
+
+{{if .UnassignedBugs}}
+<section class="unassigned-group" aria-label="Unassigned bugs">
+  <h2>Unassigned bugs</h2>
+  {{template "item-links" .UnassignedBugs}}
+</section>
+{{end}}
+{{end}}
+{{end}}

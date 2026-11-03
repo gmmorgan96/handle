@@ -317,7 +317,7 @@ func TestOverviewMethodNotAllowed(t *testing.T) {
 }
 
 func TestOverviewUnknownPathReturnsNotFound(t *testing.T) {
-	response := get(t, NewHandler(t.TempDir()), "/services/alpha")
+	response := get(t, NewHandler(t.TempDir()), "/unknown/alpha")
 
 	if response.Code != http.StatusNotFound {
 		t.Fatalf("status = %d, want %d", response.Code, http.StatusNotFound)

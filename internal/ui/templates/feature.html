@@ -1,0 +1,59 @@
+{{define "content"}}
+{{template "breadcrumbs" .Crumbs}}
+
+<section class="page-header">
+  <div>
+    <h1>{{.Feature.Title}}</h1>
+    <p class="service-id"><code>{{.Feature.LocalID}}</code> in {{.ServiceName}}</p>
+    {{if .Feature.Description}}<p class="feature-description">{{.Feature.Description}}</p>{{end}}
+  </div>
+  <div class="overall-progress">
+    <span class="badge badge-{{.Feature.Status.Key}}">{{.Feature.Status.Label}}</span>
+    {{if .Feature.Status.Total}}
+    <div class="progress" role="progressbar" aria-label="Acceptance criteria" aria-valuenow="{{printf "%.0f" .Feature.Status.Percent}}" aria-valuemin="0" aria-valuemax="100">
+      <span class="progress-fill" style="width: {{printf "%.0f" .Feature.Status.Percent}}%"></span>
+    </div>
+    <span class="progress-text">{{.Feature.Status.Done}}/{{.Feature.Status.Total}} acceptance criteria</span>
+    {{end}}
+  </div>
+</section>
+
+<section class="detail-section">
+  <h2>Requirements</h2>
+  {{template "bullets" .Feature.Requirements}}
+</section>
+
+<section class="detail-section">
+  <h2>Acceptance Criteria</h2>
+  {{template "checks" .Feature.Acceptance}}
+</section>
+
+{{if .Feature.Dependencies}}
+<section class="detail-section">
+  <h2>Dependencies</h2>
+  {{template "bullets" .Feature.Dependencies}}
+</section>
+{{end}}
+
+<section class="detail-section">
+  <h2>Tasks</h2>
+  {{template "item-links" .Feature.Tasks}}
+</section>
+
+<section class="detail-section">
+  <h2>Bugs</h2>
+  {{template "item-links" .Feature.Bugs}}
+</section>
+
+<section class="detail-section">
+  <h2>Implementation</h2>
+  {{template "commit" .Feature.Commit}}
+</section>
+
+{{if .Feature.Summary}}
+<section class="detail-section">
+  <h2>Summary</h2>
+  <p>{{.Feature.Summary}}</p>
+</section>
+{{end}}
+{{end}}

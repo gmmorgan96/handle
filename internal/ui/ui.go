@@ -1,9 +1,10 @@
-// Package ui renders the browser overview for an aggregated project.
+// Package ui renders the browser UI for an aggregated project: the overview
+// and per-service drill-down.
 //
-// The overview is server-rendered from the same project and progress packages
-// that back the JSON API, so the cards and the API always report the same
-// values. Filters and sorting are plain query parameters, which keeps the
-// viewer usable without JavaScript and makes deep links reload-safe.
+// Pages are server-rendered from the same project and progress packages that
+// back the JSON API, so the cards and the API always report the same values.
+// Filters, sorting, and detail links are plain URLs, which keeps the viewer
+// usable without JavaScript and makes deep links reload-safe.
 package ui
 
 import (
@@ -23,17 +24,22 @@ import (
 var assets embed.FS
 
 var (
-	overviewTemplate = template.Must(template.ParseFS(assets, "templates/layout.html", "templates/overview.html"))
-	errorTemplate    = template.Must(template.ParseFS(assets, "templates/layout.html", "templates/error.html"))
+	overviewTemplate = template.Must(template.ParseFS(assets, "templates/partials.html", "templates/layout.html", "templates/overview.html"))
+	errorTemplate    = template.Must(template.ParseFS(assets, "templates/partials.html", "templates/layout.html", "templates/error.html"))
+	serviceTemplate  = template.Must(template.ParseFS(assets, "templates/partials.html", "templates/layout.html", "templates/service.html"))
+	featureTemplate  = template.Must(template.ParseFS(assets, "templates/partials.html", "templates/layout.html", "templates/feature.html"))
+	taskTemplate     = template.Must(template.ParseFS(assets, "templates/partials.html", "templates/layout.html", "templates/task.html"))
+	bugTemplate      = template.Must(template.ParseFS(assets, "templates/partials.html", "templates/layout.html", "templates/bug.html"))
 	staticHandler    = http.FileServer(http.FS(assets))
 )
 
 const (
-	statusAll      = "all"
-	statusActive   = "active"
-	statusComplete = "complete"
-	statusEmpty    = "empty"
-	statusError    = "error"
+	statusAll        = "all"
+	statusActive     = "active"
+	statusComplete   = "complete"
+	statusEmpty      = "empty"
+	statusError      = "error"
+	statusNotStarted = "not-started"
 
 	sortName   = "name"
 	sortStatus = "status"
@@ -51,13 +57,16 @@ func NewHandler(projectRoot string) *Handler {
 	return &Handler{projectRoot: projectRoot}
 }
 
-// ServeHTTP routes the overview, static assets, and unknown paths.
+// ServeHTTP routes the overview, service drill-down pages, static assets, and
+// unknown paths.
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case r.URL.Path == "/":
 		h.serveOverview(w, r)
 	case strings.HasPrefix(r.URL.Path, "/static/"):
 		staticHandler.ServeHTTP(w, r)
+	case r.URL.Path == "/services" || strings.HasPrefix(r.URL.Path, "/services/"):
+		h.serveServiceRoute(w, r)
 	default:
 		http.NotFound(w, r)
 	}
@@ -105,6 +114,7 @@ type serviceView struct {
 	ID          string
 	Name        string
 	Description string
+	URL         string
 	DependsOn   []string
 	Progress    progress.Stats
 	Features    int
@@ -162,6 +172,7 @@ func buildServiceView(service project.Service) serviceView {
 		ID:          service.ID,
 		Name:        displayName(service),
 		Description: service.Description,
+		URL:         serviceURL(service.ID),
 	}
 	for _, dependency := range service.DependsOn {
 		view.DependsOn = append(view.DependsOn, string(dependency))
