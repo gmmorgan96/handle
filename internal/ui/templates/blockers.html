@@ -1,0 +1,100 @@
+{{define "content"}}
+{{template "breadcrumbs" .Crumbs}}
+
+<section class="overview-header">
+  <div>
+    <h1>What's blocking me</h1>
+    <p class="muted">Blocked work and the items blocking it, grouped by service.</p>
+  </div>
+  {{if .HasItems}}
+  <div class="blocker-summary" aria-label="Blocker summary" data-blocked-items="{{.BlockedItems}}" data-cross-service="{{.CrossServiceReferences}}" data-unresolved="{{.UnresolvedReferences}}">
+    <span><strong>{{.BlockedItems}}</strong> blocked {{if eq .BlockedItems 1}}item{{else}}items{{end}}</span>
+    <span><strong>{{.CrossServiceReferences}}</strong> cross-service {{if eq .CrossServiceReferences 1}}reference{{else}}references{{end}}</span>
+    <span class="{{if .UnresolvedReferences}}blocker-summary-alert{{end}}"><strong>{{.UnresolvedReferences}}</strong> unresolved {{if eq .UnresolvedReferences 1}}reference{{else}}references{{end}}</span>
+  </div>
+  {{end}}
+</section>
+
+{{if .Unresolved}}
+<section class="unresolved-panel" data-unresolved-section aria-labelledby="unresolved-heading">
+  <h2 id="unresolved-heading">Unresolved references</h2>
+  <p class="muted">These dependency references point at work items that no loaded service provides.</p>
+  <ul class="unresolved-list">
+    {{range .Unresolved}}
+    <li class="unresolved-reference" data-unresolved-target="{{.Target}}"{{if .CrossService}} data-cross-service="true"{{end}}>
+      <span class="unresolved-source">
+        {{if .SourceURL}}<a href="{{.SourceURL}}"><code>{{.SourceID}}</code> {{.SourceTitle}}</a>{{else}}<code>{{.SourceID}}</code> {{.SourceTitle}}{{end}}
+        {{if .SourceServiceName}}<span class="reference-service">in {{.SourceServiceName}}</span>{{end}}
+      </span>
+      <span class="unresolved-arrow" aria-hidden="true">→</span>
+      <span><code>{{.Target}}</code>{{if .TargetService}} <span class="reference-service">({{.TargetService}})</span>{{end}}</span>
+      {{if .CrossService}}<span class="badge badge-cross-service">cross-service</span>{{end}}
+      <span class="badge badge-error">unresolved</span>
+    </li>
+    {{end}}
+  </ul>
+</section>
+{{end}}
+
+{{if not .HasItems}}
+<section class="empty-state" role="status">
+  <h2>No blockers recorded</h2>
+  <p>No work item lists a dependency and no item is blocked by another. Add a <code>## Dependencies</code> section to a feature, task, or bug to see it here.</p>
+</section>
+{{else}}
+{{range .Groups}}
+<section class="blockers-group" data-service-id="{{.ID}}" aria-label="{{.Name}} blockers">
+  <header class="blockers-group-header">
+    <h2><a href="{{.URL}}">{{.Name}}</a></h2>
+    <span class="service-id"><code>{{.ID}}</code></span>
+  </header>
+  <div class="blocker-list">
+    {{range .Items}}
+    <article class="blocker-card" data-item-id="{{.DisplayID}}" data-kind="{{.Kind}}"{{if .HasCrossService}} data-cross-service="true"{{end}}>
+      <header class="blocker-card-header">
+        <div>
+          <h3>{{if .URL}}<a href="{{.URL}}"><code>{{.LocalID}}</code> {{.Title}}</a>{{else}}<code>{{.LocalID}}</code> {{.Title}}{{end}}</h3>
+          <p class="service-id"><code>{{.DisplayID}}</code> · {{.KindLabel}}</p>
+        </div>
+        {{if .HasCrossService}}<span class="badge badge-cross-service">cross-service</span>{{end}}
+      </header>
+      <div class="blocker-columns">
+        <div class="blocker-column">
+          <h4>Blocked by</h4>
+          {{if .BlockedBy}}
+          <ul class="reference-list">
+            {{range .BlockedBy}}
+            <li class="reference{{if not .Resolved}} reference-unresolved{{end}}" data-reference-id="{{.ID}}" data-resolved="{{if .Resolved}}true{{else}}false{{end}}"{{if .CrossService}} data-cross-service="true"{{end}}>
+              {{if .URL}}<a href="{{.URL}}"><code>{{.ID}}</code> {{.Title}}</a>{{else}}<code>{{.ID}}</code>{{if .Title}} {{.Title}}{{else}} <span class="muted">unresolved</span>{{end}}{{end}}
+              {{if .ServiceName}}<span class="reference-service">{{.ServiceName}}</span>{{end}}
+              {{if .KindLabel}}<span class="reference-kind">{{.KindLabel}}</span>{{end}}
+              {{if .CrossService}}<span class="badge badge-cross-service">cross-service</span>{{end}}
+              {{if not .Resolved}}<span class="badge badge-error">unresolved</span>{{end}}
+            </li>
+            {{end}}
+          </ul>
+          {{else}}<p class="muted">No dependencies.</p>{{end}}
+        </div>
+        <div class="blocker-column">
+          <h4>Blocks</h4>
+          {{if .Blocks}}
+          <ul class="reference-list">
+            {{range .Blocks}}
+            <li class="reference" data-reference-id="{{.ID}}" data-resolved="true"{{if .CrossService}} data-cross-service="true"{{end}}>
+              {{if .URL}}<a href="{{.URL}}"><code>{{.ID}}</code> {{.Title}}</a>{{else}}<code>{{.ID}}</code> {{.Title}}{{end}}
+              {{if .ServiceName}}<span class="reference-service">{{.ServiceName}}</span>{{end}}
+              {{if .KindLabel}}<span class="reference-kind">{{.KindLabel}}</span>{{end}}
+              {{if .CrossService}}<span class="badge badge-cross-service">cross-service</span>{{end}}
+            </li>
+            {{end}}
+          </ul>
+          {{else}}<p class="muted">Nothing blocked by this item.</p>{{end}}
+        </div>
+      </div>
+    </article>
+    {{end}}
+  </div>
+</section>
+{{end}}
+{{end}}
+{{end}}

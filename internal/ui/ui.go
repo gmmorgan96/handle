@@ -30,6 +30,7 @@ var (
 	featureTemplate  = template.Must(template.ParseFS(assets, "templates/partials.html", "templates/layout.html", "templates/feature.html"))
 	taskTemplate     = template.Must(template.ParseFS(assets, "templates/partials.html", "templates/layout.html", "templates/task.html"))
 	bugTemplate      = template.Must(template.ParseFS(assets, "templates/partials.html", "templates/layout.html", "templates/bug.html"))
+	blockersTemplate = template.Must(template.ParseFS(assets, "templates/partials.html", "templates/layout.html", "templates/blockers.html"))
 	staticHandler    = http.FileServer(http.FS(assets))
 )
 
@@ -57,12 +58,14 @@ func NewHandler(projectRoot string) *Handler {
 	return &Handler{projectRoot: projectRoot}
 }
 
-// ServeHTTP routes the overview, service drill-down pages, static assets, and
-// unknown paths.
+// ServeHTTP routes the overview, global blockers view, service drill-down
+// pages, static assets, and unknown paths.
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case r.URL.Path == "/":
 		h.serveOverview(w, r)
+	case r.URL.Path == "/blockers":
+		h.serveBlockers(w, r)
 	case strings.HasPrefix(r.URL.Path, "/static/"):
 		staticHandler.ServeHTTP(w, r)
 	case r.URL.Path == "/services" || strings.HasPrefix(r.URL.Path, "/services/"):
