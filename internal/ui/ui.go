@@ -18,6 +18,7 @@ import (
 
 	"github.com/gmmorgan96/handle/internal/progress"
 	"github.com/gmmorgan96/handle/internal/project"
+	watch "github.com/gmmorgan96/handle/internal/watcher"
 )
 
 //go:embed templates/*.html static/*
@@ -47,15 +48,20 @@ const (
 )
 
 // Handler renders the project overview. It loads the project on every request,
-// so a browser refresh reflects edits on disk.
+// so a browser refresh reflects edits on disk. The watcher backs the live
+// reload event stream; it does not cache project data.
 type Handler struct {
 	projectRoot string
+	watcher     *watch.Watcher
 }
 
 // NewHandler creates an overview handler for the project rooted at
 // projectRoot.
 func NewHandler(projectRoot string) *Handler {
-	return &Handler{projectRoot: projectRoot}
+	return &Handler{
+		projectRoot: projectRoot,
+		watcher:     watch.New(projectRoot),
+	}
 }
 
 // ServeHTTP routes the overview, global blockers view, service drill-down
@@ -66,6 +72,8 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		h.serveOverview(w, r)
 	case r.URL.Path == "/blockers":
 		h.serveBlockers(w, r)
+	case r.URL.Path == "/events":
+		h.serveEvents(w, r)
 	case strings.HasPrefix(r.URL.Path, "/static/"):
 		staticHandler.ServeHTTP(w, r)
 	case r.URL.Path == "/services" || strings.HasPrefix(r.URL.Path, "/services/"):

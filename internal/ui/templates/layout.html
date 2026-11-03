@@ -17,5 +17,25 @@
   <main class="container">
     {{template "content" .}}
   </main>
+  <script>
+    // Reload when the server reports that planning files changed. The server
+    // coalesces a burst of edits into one event, and the source is closed
+    // before reloading so a slow navigation cannot queue another reload.
+    (function () {
+      if (!window.EventSource) {
+        return;
+      }
+      var source = new EventSource("/events");
+      var reloading = false;
+      source.addEventListener("change", function () {
+        if (reloading) {
+          return;
+        }
+        reloading = true;
+        source.close();
+        window.location.reload();
+      });
+    })();
+  </script>
 </body>
 </html>{{end}}
