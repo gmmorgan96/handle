@@ -1,0 +1,13 @@
+# Example project manifest. Paths are relative to the project root.
+project: Example Tasks
+services:
+  - id: api
+    name: Task API
+    path: ./api
+    description: Serves the task list over HTTP
+    depends_on: [worker]
+  - id: worker
+    name: Task Worker
+    path: ./worker
+    description: Processes queued tasks in the background
+    depends_on: []
