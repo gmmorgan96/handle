@@ -13,7 +13,7 @@ registers the services and the dependencies between them.
 - [x] ([F002](feature/feature-002.md)) Aggregate repos and roll up progress
 - [x] ([F003](feature/feature-003.md)) Build project overview and drill-down UI
 - [x] ([F004](feature/feature-004.md)) Surface cross-service blockers
-- [ ] ([F005](feature/feature-005.md)) Add live reload and documentation
+- [x] ([F005](feature/feature-005.md)) Add live reload and documentation
 
 **Dependencies**
 - None

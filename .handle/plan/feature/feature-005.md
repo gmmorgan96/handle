@@ -10,7 +10,7 @@ Keep the viewer in sync with files on disk and document how the multi-service mo
 
 ## Tasks
 - [x] [T011](../task/task-011.md) Add live reload on file change
-- [ ] [T012](../task/task-012.md) Update README and architecture notes
+- [x] [T012](../task/task-012.md) Update README and architecture notes
 
 ## Dependencies
 - F003
@@ -18,7 +18,7 @@ Keep the viewer in sync with files on disk and document how the multi-service mo
 ## Acceptance Criteria
 - [x] Editing a task file updates the UI without a restart
 - [x] Adding a service to the manifest appears after refresh
-- [ ] README documents setup, `services.yaml`, and the API
+- [x] README documents setup, `services.yaml`, and the API
 
 ## Implementation
 - Commit: (pending)
