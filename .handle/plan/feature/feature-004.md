@@ -11,16 +11,16 @@ Resolve work-item dependencies that cross service boundaries and make them visib
 
 ## Tasks
 - [x] [T009](../task/task-009.md) Resolve cross-service blockers
-- [ ] [T010](../task/task-010.md) Add "what's blocking me" list view
+- [x] [T010](../task/task-010.md) Add "what's blocking me" list view
 
 ## Dependencies
 - F001
 - F003
 
 ## Acceptance Criteria
-- [ ] A cross-service blocker appears on both the blocked and the blocking item
-- [ ] An unresolved reference is flagged
-- [ ] The global view lists blocked items together with their blockers
+- [x] A cross-service blocker appears on both the blocked and the blocking item
+- [x] An unresolved reference is flagged
+- [x] The global view lists blocked items together with their blockers
 
 ## Implementation
 - Commit: (pending)
