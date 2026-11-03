@@ -10,7 +10,7 @@ Resolve work-item dependencies that cross service boundaries and make them visib
 - Provide a global "what's blocking me" view
 
 ## Tasks
-- [ ] [T009](../task/task-009.md) Resolve cross-service blockers
+- [x] [T009](../task/task-009.md) Resolve cross-service blockers
 - [ ] [T010](../task/task-010.md) Add "what's blocking me" list view
 
 ## Dependencies
